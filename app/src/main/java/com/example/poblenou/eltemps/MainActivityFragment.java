@@ -1,6 +1,7 @@
 package com.example.poblenou.eltemps;
 
 import android.os.Bundle;
+import android.preference.Preference;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -16,6 +17,10 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import retrofit.Retrofit;
+import retrofit.http.GET;
+import retrofit.http.Path;
+
 /**
  * A placeholder fragment containing a simple view.
  */
@@ -26,7 +31,6 @@ public class MainActivityFragment extends Fragment {
     private ArrayList items;
     private ArrayAdapter <String> adapter;
     private ListView lV1;
-    private TextView tVDias;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,7 +49,6 @@ public class MainActivityFragment extends Fragment {
                 "Jueves 22/06 Nublado","Viernes 23/06 Nublado", "Sábado 24/06 Nublado", "Domingo 25/06 Nublado" };
 
         lV1=(ListView) rootView.findViewById(R.id.lV1);
-        tVDias=(TextView) rootView.findViewById(R.id.tVdias);
 
 
         items = new ArrayList(Arrays.asList(fecha));
@@ -70,5 +73,20 @@ public class MainActivityFragment extends Fragment {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void refresh ()
+    {
+        final String FORECAST_BASE_URL = "api.openweathermap.org/data/2.5 /forecast?q=";
+        final String CITY = SettingsActivity.;
+        final String COUNTRY_CODE = "es";
+        final String APPID = "2d16371b18d582695a502b8396b9673d";
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(FORECAST_BASE_URL+"q="+CITY+","+COUNTRY_CODE).build();
+
+        Call<List<Repo>> repos = service.listRepos("octocat");
+    }
+    public interface OpenWeatherMapService {
+        @GET("/users/{user}/repos")
+        Call<List<Repo>> listRepos(@Path("user") String user);
     }
 }
