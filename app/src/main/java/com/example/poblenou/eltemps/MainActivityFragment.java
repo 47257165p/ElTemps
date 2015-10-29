@@ -20,6 +20,7 @@ import java.util.Arrays;
 import retrofit.Retrofit;
 import retrofit.http.GET;
 import retrofit.http.Path;
+import retrofit.http.Query;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -70,23 +71,17 @@ public class MainActivityFragment extends Fragment {
         int id = item.getItemId();
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_refresh) {
+            refresh();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    //Método que se encarga de definir lo que hará nuestro botón de refresh al ser pulsado. Este creará un objeto OpenWeatherController y ejecutará el método updateForecasts de dicho objeto.
     private void refresh ()
     {
-        final String FORECAST_BASE_URL = "api.openweathermap.org/data/2.5 /forecast?q=";
-        final String CITY = SettingsActivity.;
-        final String COUNTRY_CODE = "es";
-        final String APPID = "2d16371b18d582695a502b8396b9673d";
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(FORECAST_BASE_URL+"q="+CITY+","+COUNTRY_CODE).build();
+        OpenWeatherController apiClient = new OpenWeatherController();
+        apiClient.updateForecasts(adapter);
+    }
 
-        Call<List<Repo>> repos = service.listRepos("octocat");
-    }
-    public interface OpenWeatherMapService {
-        @GET("/users/{user}/repos")
-        Call<List<Repo>> listRepos(@Path("user") String user);
-    }
 }
